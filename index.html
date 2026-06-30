@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wings of Wonder — Color Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --green:#234D3F; --green2:#2F5D4F; --gold:#C2A14E; --yellow:#FFC91D; --cream:#FBF6EA; --ink:#23332B; --muted:#7a6f5c; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Nunito',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; }
+  header.hero{ background:var(--green); color:var(--cream); padding:34px 20px 30px; text-align:center; }
+  header.hero .kicker{ font-size:13px; font-weight:800; letter-spacing:.34em; text-transform:uppercase; color:var(--yellow); }
+  header.hero h1{ font-family:'Cormorant Garamond',serif; font-weight:700; font-size:clamp(34px,8vw,56px); line-height:1; margin:8px 0 6px; }
+  header.hero p{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(17px,4.5vw,22px); color:#EFE7D2; margin:0 auto; max-width:540px; }
+  .ribbon{ height:6px; background:var(--yellow); }
+  .intro{ max-width:680px; margin:26px auto 8px; padding:0 22px; text-align:center; color:var(--muted); font-size:15px; line-height:1.6; }
+  .grid{ max-width:880px; margin:10px auto 60px; padding:0 16px; display:flex; flex-direction:column; gap:22px; }
+  .card{ background:#fff; border:1px solid #ece3cc; border-radius:18px; overflow:hidden; scroll-margin-top:16px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .card.flash{ animation:flash 1.6s ease; }
+  @keyframes flash{ 0%{ box-shadow:0 0 0 0 rgba(255,201,29,.0);} 25%{ box-shadow:0 0 0 5px rgba(255,201,29,.85);} 100%{ box-shadow:0 1px 3px rgba(0,0,0,.05);} }
+  .card-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:16px 20px 6px; }
+  .card-head .no{ font-size:12px; font-weight:800; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
+  .card-head h2{ font-family:'Cormorant Garamond',serif; font-weight:700; font-size:30px; margin:0; color:var(--green); }
+  .imgs{ display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid #f0e8d2; }
+  @media (max-width:560px){ .imgs{ grid-template-columns:1fr; } }
+  figure.pane{ margin:0; position:relative; }
+  figure.pane + figure.pane{ border-left:1px solid #f0e8d2; }
+  @media (max-width:560px){ figure.pane + figure.pane{ border-left:none; border-top:1px solid #f0e8d2; } }
+  .pane .frame{ position:relative; aspect-ratio:4/3; background:#f3eedd; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .pane .frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; display:block; z-index:2; }
+  .pane.photo .frame img{ object-fit:cover; }
+  .pane .ph{ text-align:center; color:#b6a87f; font-size:13px; font-weight:700; padding:18px; line-height:1.5; }
+  .pane .ph code{ font-family:ui-monospace,Menlo,monospace; font-size:12px; color:#8a7d63; background:#efe7d2; padding:2px 6px; border-radius:5px; }
+  .pane figcaption{ text-align:center; font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:#9a8f7a; padding:8px 4px; background:#fcf9f0; }
+  .info{ padding:16px 20px 20px; }
+  .info .fact{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:19px; line-height:1.45; color:#33332b; margin:0 0 14px; }
+  .palette-label{ font-size:11px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#9a8f7a; margin-bottom:8px; }
+  .palette{ display:flex; flex-wrap:wrap; gap:10px; }
+  .sw{ display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:#4a4536; }
+  .sw i{ width:18px; height:18px; border-radius:5px; border:1px solid rgba(0,0,0,.12); display:inline-block; }
+  footer{ text-align:center; padding:30px 20px 50px; color:var(--muted); font-size:13px; }
+  footer .logo{ font-family:'Cormorant Garamond',serif; font-weight:700; font-size:24px; color:var(--green); }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="kicker">Zilpa Nature Series</div>
+  <h1>Wings of Wonder</h1>
+  <p>Color guide &amp; real-bird photos — scan, look, and color!</p>
+</header>
+<div class="ribbon"></div>
+<div class="intro">Each bird in your coloring book has a little code. Scan it to land right here and see what the bird really looks like — plus the colors to reach for.</div>
+<div class="grid" id="grid"></div>
+<footer>
+  <div class="logo">Zilpa</div>
+  <div style="margin-top:6px;">Published by Zilpa &middot; Nature books for curious young minds</div>
+</footer>
+
+<script>
+const BIRDS = [
+  { slug:'owl', no:'01', name:'The Owl', fact:'Owls can turn their heads almost all the way around to look behind them!',
+    palette:[['#7c5a3a','Warm brown'],['#c9a86a','Tawny buff'],['#f4ead3','Cream face'],['#e7b22b','Amber eyes'],['#3a2c1c','Dark brown']] },
+  { slug:'toucan', no:'02', name:'The Toucan', fact:'A toucan\u2019s huge, colorful beak is mostly hollow, so it\u2019s very light.',
+    palette:[['#1c1c1c','Black body'],['#f6efd2','White throat'],['#f39a28','Orange beak'],['#e8541e','Red-orange tip'],['#7fd0de','Blue eye-ring']] },
+  { slug:'robin', no:'03', name:'The Robin', fact:'Robins love worms and can spot them wriggling in the grass.',
+    palette:[['#8a5a32','Brown back'],['#d8602e','Rusty-orange breast'],['#f6efe0','Pale belly'],['#6b6256','Soft grey'],['#e7b22b','Yellow beak']] },
+  { slug:'cardinal', no:'04', name:'The Cardinal', fact:'The bright red cardinal sings cheery whistles all year round.',
+    palette:[['#c62127','Bright red'],['#1c1c1c','Black mask'],['#e8851f','Orange beak'],['#8a2b22','Deep red wing']] },
+  { slug:'blue-jay', no:'05', name:'The Blue Jay', fact:'Blue jays are clever and can copy the calls of other birds.',
+    palette:[['#3f7fc4','Sky blue'],['#1c4f86','Deep blue'],['#f3eee2','White face'],['#1c1c1c','Black necklace'],['#9aa7b0','Soft grey']] },
+  { slug:'peacock', no:'06', name:'The Peacock', fact:'A peacock fans out its tail of shimmering \u201ceyes\u201d to show off.',
+    palette:[['#0c5b63','Teal'],['#16846f','Emerald'],['#1b3f8b','Royal blue'],['#e0a92b','Golden eyespot'],['#6a3fa0','Violet sheen']] },
+  { slug:'flamingo', no:'07', name:'The Flamingo', fact:'Flamingos turn pink from the tiny shrimp and algae they eat.',
+    palette:[['#f4a0b4','Soft pink'],['#ef6e8a','Coral pink'],['#f7d8df','Pale blush'],['#1c1c1c','Black wingtips'],['#e7b22b','Beak base']] },
+  { slug:'hummingbird', no:'08', name:'The Hummingbird', fact:'A hummingbird can flap its wings about 50 times every second!',
+    palette:[['#1f8a5b','Emerald green'],['#16a06a','Bright green'],['#c2244a','Ruby throat'],['#6b6256','Grey'],['#f2c6dc','Pink flower']] },
+  { slug:'kingfisher', no:'09', name:'The Kingfisher', fact:'Kingfishers dive like an arrow to catch fish underwater.',
+    palette:[['#1f7fb0','Bright blue'],['#16a3b8','Turquoise'],['#d97a2b','Orange breast'],['#f3eee2','White patch'],['#1c1c1c','Dark bill']] },
+  { slug:'puffin', no:'10', name:'The Puffin', fact:'Puffins can carry lots of little fish in their colorful beaks at once.',
+    palette:[['#1c1c1c','Black back'],['#f4eede','White face'],['#e8541e','Orange-red beak'],['#f3a51f','Yellow band'],['#e8771e','Orange feet']] },
+  { slug:'hoopoe', no:'11', name:'The Hoopoe', fact:'When excited, the hoopoe lifts the feathers on its head into a fancy crown.',
+    palette:[['#c98a3f','Sandy orange'],['#e0a96a','Warm buff'],['#1c1c1c','Black bars'],['#f4ead3','Cream'],['#7a5230','Brown']] },
+  { slug:'penguin', no:'12', name:'The Penguin', fact:'Penguins can\u2019t fly, but they \u201cfly\u201d through the water by swimming!',
+    palette:[['#1c1c1c','Black back'],['#f4eede','White tummy'],['#3a4a55','Slate grey'],['#f3a51f','Golden-orange'],['#e8851f','Orange beak']] },
+  { slug:'pelican', no:'13', name:'The Pelican', fact:'A pelican scoops up fish with the big stretchy pouch under its beak.',
+    palette:[['#f1ece0','White feathers'],['#cfd6da','Soft grey'],['#f1c33b','Yellow pouch'],['#e8a23a','Golden beak'],['#c9a0a8','Pink blush']] },
+  { slug:'swan', no:'14', name:'The Swan', fact:'Swans curve their long necks into a graceful heart shape.',
+    palette:[['#ffffff','White feathers'],['#e8e4d8','Shadow grey'],['#e8651f','Orange beak'],['#1c1c1c','Black mask']] },
+  { slug:'hornbill', no:'15', name:'The Hornbill', fact:'Many hornbills have a hollow helmet, called a casque, on top of their big bill.',
+    palette:[['#1c1c1c','Black body'],['#f4ead3','Cream'],['#e7b22b','Yellow casque'],['#d6502a','Red-orange'],['#f3eee2','White tail band']] },
+];
+
+const grid = document.getElementById('grid');
+BIRDS.forEach(b => {
+  const sws = b.palette.map(p => `<span class="sw"><i style="background:${p[0]}"></i>${p[1]}</span>`).join('');
+  const card = document.createElement('section');
+  card.className = 'card';
+  card.id = b.slug;
+  card.innerHTML = `
+    <div class="card-head"><h2>${b.name}</h2><span class="no">No. ${b.no}</span></div>
+    <div class="imgs">
+      <figure class="pane">
+        <div class="frame">
+          <img src="colored/${b.slug}.png" alt="${b.name} colored guide" onerror="this.remove()">
+          <div class="ph">Colored guide coming soon</div>
+        </div>
+        <figcaption>How to color it</figcaption>
+      </figure>
+      <figure class="pane photo">
+        <div class="frame">
+          <img src="photos/${b.slug}.jpg" alt="${b.name} photograph" onerror="this.remove()">
+          <div class="ph">Add a real photo<br><code>photos/${b.slug}.jpg</code></div>
+        </div>
+        <figcaption>The real bird</figcaption>
+      </figure>
+    </div>
+    <div class="info">
+      <p class="fact">${b.fact}</p>
+      <div class="palette-label">Colors to look for</div>
+      <div class="palette">${sws}</div>
+    </div>`;
+  grid.appendChild(card);
+});
+
+// Flash the targeted card when arriving from a QR link
+function flashHash(){
+  const id = decodeURIComponent(location.hash.slice(1));
+  if(!id) return;
+  const el = document.getElementById(id);
+  if(el){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+}
+window.addEventListener('hashchange', flashHash);
+window.addEventListener('load', () => setTimeout(flashHash, 300));
+</script>
+</body>
+</html>
